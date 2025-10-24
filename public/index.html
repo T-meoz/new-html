@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mock Test - Index (Live Server)</title>
+
+    <!-- Styles: bạn có thể tách ra file CSS riêng nếu muốn -->
+    <style>
+      :root {
+        --bg: #f7f9fc;
+        --text: #111827;
+      }
+      html, body, #root {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      }
+      .App {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 12px;
+        box-sizing: border-box;
+      }
+
+      /* NavBar */
+      .mocktest-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        background: #f4f6fb;
+        padding: 10px 14px;
+        border-radius: 6px;
+      }
+      .mocktest-navbar .nav-left {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .mocktest-navbar .nav-right button {
+        margin-left: 8px;
+      }
+      .progress {
+        color: #555;
+        font-size: 14px;
+      }
+
+      /* QuestionCard */
+      .mocktest-container {
+        max-width: 800px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      .mocktest-main,
+      .mocktest-summary {
+        margin-top: 16px;
+        background: #fff;
+        padding: 16px;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      }
+      .question-text {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      /* Choices */
+      .choices-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .choice-item {
+        margin-bottom: 8px;
+      }
+      .choice-button {
+        width: 100%;
+        text-align: left;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        background: #fafafa;
+        border-radius: 4px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        cursor: pointer;
+      }
+      .choice-button:hover {
+        border-color: #bbb;
+      }
+      .choice-button.selected {
+        background: #e6f4ff;
+        border-color: #80bfff;
+      }
+      .choice-label {
+        font-weight: 700;
+        width: 28px;
+      }
+
+      .correct {
+        color: green;
+        margin-left: 8px;
+      }
+      .incorrect {
+        color: #e55353;
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="App"></div>
+
+    <!-- React (development builds) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- PropTypes (optional) -->
+    <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+    <!-- Babel standalone: dùng chỉ khi phục vụ JSX trực tiếp trên client (dev only) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- All component + app code as JSX, transpiled in browser by Babel.
+         Vì bạn dùng Live Server, đây là cách nhanh để chạy React không cần build step.
+         LƯU Ý: chỉ dùng cho phát triển, không dùng cho production. -->
+    <script type="text/babel" data-presets="env,react">
+      const { useState, useMemo } = React;
+
+      function Choices({ choices, selectedIndex, onSelect }) {
+        return (
+          <ul className="choices-list" role="list">
+            {choices.map((choice, idx) => (
+              <li key={idx} className="choice-item">
+                <button
+                  type="button"
+                  className={'choice-button ' + (selectedIndex === idx ? 'selected' : '')}
+                  onClick={() => onSelect(idx)}
+                  aria-pressed={selectedIndex === idx}
+                >
+                  <span className="choice-label">{String.fromCharCode(65 + idx)}.</span>
+                  <span className="choice-text">{choice}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        );
+      }
+
+      // PropTypes usage if PropTypes is loaded (it's optional)
+      if (window.PropTypes) {
+        Choices.propTypes = {
+          choices: PropTypes.arrayOf(PropTypes.string).isRequired,
+          selectedIndex: PropTypes.number,
+          onSelect: PropTypes.func.isRequired,
+        };
+      }
+
+      function QuestionCard({ question, selectedIndex, onChoiceSelect }) {
+        if (!question) return null;
+        return (
+          <div className="question-card" data-question-id={question.id}>
+            <h2 className="question-text">{question.text}</h2>
+            <Choices
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              onSelect={(idx) => onChoiceSelect(question.id, idx)}
+            />
+          </div>
+        );
+      }
+
+      function NavBar({ currentIndex, total, onPrev, onNext, onSubmit, answeredCount }) {
+        return (
+          <header className="mocktest-navbar" role="navigation" aria-label="Mock test navigation">
+            <div className="nav-left">
+              <strong>Question {currentIndex + 1} / {total}</strong>
+              <span className="progress">Answered: {answeredCount}/{total}</span>
+            </div>
+            <div className="nav-right">
+              <button type="button" onClick={onPrev} disabled={currentIndex === 0}>
+                Prev
+              </button>
+              {currentIndex < total - 1 ? (
+                <button type="button" onClick={onNext}>
+                  Next
+                </button>
+              ) : (
+                <button type="button" onClick={onSubmit}>
+                  Submit
+                </button>
+              )}
+            </div>
+          </header>
+        );
+      }
+
+      function MockTest() {
+        const initialQuestions = [
+          {
+            id: 1,
+            text: 'What is the capital of France?',
+            choices: ['Berlin', 'Madrid', 'Paris', 'Rome'],
+            correctIndex: 2,
+          },
+          {
+            id: 2,
+            text: 'Which language runs in a web browser?',
+            choices: ['Java', 'C', 'Python', 'JavaScript'],
+            correctIndex: 3,
+          },
+          {
+            id: 3,
+            text: 'What does CSS stand for?',
+            choices: [
+              'Central Style Sheets',
+              'Cascading Style Sheets',
+              'Cascading Simple Sheets',
+              'Cars SUVs Sailboats',
+            ],
+            correctIndex: 1,
+          },
+        ];
+
+        const [questions] = useState(initialQuestions);
+        const [currentIndex, setCurrentIndex] = useState(0);
+        const [selectedAnswers, setSelectedAnswers] = useState({});
+        const [submitted, setSubmitted] = useState(false);
+
+        const total = questions.length;
+        const answeredCount = useMemo(() => Object.keys(selectedAnswers).length, [selectedAnswers]);
+
+        const handleChoiceSelect = (questionId, choiceIndex) => {
+          setSelectedAnswers((prev) => ({
+            ...prev,
+            [questionId]: choiceIndex,
+          }));
+        };
+
+        const goPrev = () => setCurrentIndex((i) => Math.max(0, i - 1));
+        const goNext = () => setCurrentIndex((i) => Math.min(total - 1, i + 1));
+        const handleSubmit = () => setSubmitted(true);
+
+        const currentQuestion = questions[currentIndex];
+        const selectedIndexForCurrent = selectedAnswers[currentQuestion.id] ?? null;
+
+        const score = useMemo(() => {
+          if (!submitted) return null;
+          let s = 0;
+          for (const q of questions) {
+            const sel = selectedAnswers[q.id];
+            if (typeof sel === 'number' && sel === q.correctIndex) s += 1;
+          }
+          return s;
+        }, [submitted, selectedAnswers, questions]);
+
+        return (
+          <div className="mocktest-container">
+            <NavBar
+              currentIndex={currentIndex}
+              total={total}
+              onPrev={goPrev}
+              onNext={goNext}
+              onSubmit={handleSubmit}
+              answeredCount={answeredCount}
+            />
+
+            {!submitted ? (
+              <main className="mocktest-main">
+                <QuestionCard
+                  question={currentQuestion}
+                  selectedIndex={selectedIndexForCurrent}
+                  onChoiceSelect={handleChoiceSelect}
+                />
+              </main>
+            ) : (
+              <main className="mocktest-summary">
+                <h2>Summary</h2>
+                <p>You answered {answeredCount} out of {total} questions.</p>
+                <p>Score: {score} / {total}</p>
+                <ol>
+                  {questions.map((q) => {
+                    const sel = selectedAnswers[q.id];
+                    return (
+                      <li key={q.id}>
+                        <div className="summary-question">{q.text}</div>
+                        <div className="summary-answers">
+                          Your answer:{' '}
+                          {typeof sel === 'number' ? (
+                            <strong>{q.choices[sel]}</strong>
+                          ) : (
+                            <em>Not answered</em>
+                          )}
+                          {typeof sel === 'number' && sel === q.correctIndex && (
+                            <span className="correct"> ✓</span>
+                          )}
+                          {typeof sel === 'number' && sel !== q.correctIndex && (
+                            <span className="incorrect"> ✗ (Correct: {q.choices[q.correctIndex]})</span>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </main>
+            )}
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <MockTest />
+          </div>
+        );
+      }
+
+      // Mount app
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

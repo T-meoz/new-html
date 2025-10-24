@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Trang đích sản phẩm bài kiểm tra thử",
   "main": "index.html",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "test:simple": "jest tests/faqManager.simple.test.js"

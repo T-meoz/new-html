@@ -1,0 +1,29 @@
+.mocktest-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #f4f6fb;
+  padding: 10px 14px;
+  border-radius: 6px;
+}
+.mocktest-navbar .nav-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.mocktest-navbar .nav-right button {
+  margin-left: 8px;
+}
+.progress {
+  color: #555;
+  font-size: 14px;
+}
+.correct {
+  color: green;
+  margin-left: 8px;
+}
+.incorrect {
+  color: #e55353;
+  margin-left: 8px;
+}

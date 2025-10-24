@@ -1,0 +1,16 @@
+{
+  "questions": [
+    {
+      "question": "Bài kiểm tra thử có miễn phí không?",
+      "answer": "Có, bài kiểm tra thử hoàn toàn miễn phí. Bạn chỉ cần đăng ký tài khoản là có thể sử dụng."
+    },
+    {
+      "question": "Tôi có thể làm lại bài kiểm tra không?",
+      "answer": "Có, bạn có thể làm lại bài kiểm tra sau 24 giờ để theo dõi sự tiến bộ của mình."
+    },
+    {
+      "question": "Kết quả có được bảo mật không?",
+      "answer": "Có, tất cả thông tin và kết quả của bạn đều được bảo mật và không chia sẻ với bên thứ ba."
+    }
+  ]
+}

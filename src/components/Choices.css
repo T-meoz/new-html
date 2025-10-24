@@ -1,0 +1,31 @@
+.choices-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.choice-item {
+  margin-bottom: 8px;
+}
+.choice-button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 4px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+}
+.choice-button:hover {
+  border-color: #bbb;
+}
+.choice-button.selected {
+  background: #e6f4ff;
+  border-color: #80bfff;
+}
+.choice-label {
+  font-weight: 700;
+  width: 28px;
+}

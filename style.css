@@ -27,6 +27,8 @@ body {
     background-color: var(--bg-light);
 }
 
+
+
 /* Skip link for keyboard navigation */
 .skip-link {
     position: absolute;
