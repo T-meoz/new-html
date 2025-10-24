@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mock Test - Giao diện làm bài</title>
+
+    <style>
+      /* Reset / base */
+      * { box-sizing: border-box; }
+      html,body { height:100%; margin:0; font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background:#f3f6f9; color:#0f1720; }
+      a { color: #0b60d6; text-decoration: none; }
+      button { font: inherit; }
+
+      /* Page layout */
+      .page {
+        max-width:1200px;
+        margin:28px auto;
+        padding:18px;
+      }
+
+      /* The white card that contains the exam area */
+      .exam-wrapper {
+        background: #fff;
+        border-radius: 10px;
+        padding: 22px;
+        display: grid;
+        grid-template-columns: 160px 1fr 260px;
+        gap: 20px;
+        align-items: start;
+        box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+        position: relative;
+      }
+
+      /* top centered Back button */
+      .back-wrap {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -14px;
+      }
+      .btn-back {
+        background:#f1f5f9;
+        padding:8px 14px;
+        border-radius:10px;
+        border:1px solid #e2e8f0;
+        color:#0f1720;
+        cursor:pointer;
+      }
+
+      /* Left small question summary panel */
+      .question-summary {
+        background: transparent;
+        border: 1px solid #e6eef3;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 14px;
+        height: fit-content;
+      }
+      .question-summary h4 {
+        margin:0 0 8px 0;
+        font-size:15px;
+      }
+      .question-summary .meta { font-size:13px; color:#475569; line-height:1.4; margin-bottom:10px; }
+      .question-summary .flag { display:inline-block; margin-top:8px; color:#0b60d6; cursor:pointer; font-size:13px; }
+
+      /* Center big question card */
+      .question-card {
+        padding: 22px;
+        border-radius: 8px;
+        background: #e8f6f7; /* pale blue */
+        min-height: 220px;
+        display:flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .question-card .question-text {
+        font-size:18px;
+        margin:0 0 6px 0;
+        color:#062a3f;
+      }
+
+      .choices {
+        margin-top: 8px;
+      }
+      .choice {
+        display:flex;
+        gap:12px;
+        align-items:flex-start;
+        padding: 10px 12px;
+        border-radius:6px;
+        margin-bottom:10px;
+        background: transparent;
+        cursor:pointer;
+        border: 1px solid transparent;
+      }
+      .choice:hover { border-color: rgba(3,102,214,0.08); background: rgba(3,102,214,0.02); }
+      .choice .radio {
+        width:18px;
+        height:18px;
+        border-radius:50%;
+        border:2px solid #a7b3bd;
+        display:inline-block;
+        flex: 0 0 18px;
+        margin-top:4px;
+      }
+      .choice .radio.selected {
+        border-color:#0b60d6;
+        background: #0b60d6;
+      }
+      .choice .label {
+        font-weight:600;
+        min-width:18px;
+      }
+      .choice .text {
+        color:#0f1720;
+      }
+
+      /* Next button bottom right of center column */
+      .center-footer {
+        display:flex;
+        justify-content:flex-end;
+        margin-top: 8px;
+      }
+      .btn-next {
+        background:#0b60d6;
+        color:#fff;
+        padding:10px 16px;
+        border-radius:8px;
+        border:none;
+        cursor:pointer;
+        box-shadow: 0 6px 14px rgba(11,96,214,0.18);
+      }
+
+      /* Right nav panel */
+      .nav-panel {
+        background: #fff;
+        border-radius:8px;
+        padding:14px;
+        border: 1px solid #f0f4f8;
+        box-shadow: 0 4px 10px rgba(15,23,42,0.03);
+      }
+      .nav-panel h3 {
+        margin:0 0 12px 0;
+        font-size:18px;
+      }
+      .nav-grid {
+        display:grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap:8px;
+      }
+      .nav-item {
+        background:#fff;
+        border:2px solid #cbd5e1;
+        width:40px;
+        height:40px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:6px;
+        cursor:pointer;
+        font-weight:600;
+        color:#0f1720;
+      }
+      .nav-item.current {
+        border-color:#0b60d6;
+        background:#fff;
+        box-shadow: inset 0 0 0 3px rgba(11,96,214,0.06);
+      }
+      .nav-actions {
+        margin-top:12px;
+      }
+      .finish-link { color:#0b60d6; display:inline-block; margin-top:8px; }
+
+      /* Top-right close button like screenshot */
+      .close-btn {
+        position:absolute;
+        right: -18px;
+        top: -18px;
+        width:44px;
+        height:44px;
+        border-radius:10px;
+        border:2px solid #2b5fbf;
+        background:#fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#2b5fbf;
+        font-weight:700;
+        cursor:pointer;
+      }
+
+      /* Responsive */
+      @media (max-width: 980px) {
+        .exam-wrapper { grid-template-columns: 1fr; }
+        .nav-panel { order: 3; }
+        .question-summary { order: 1; display:flex; justify-content:space-between; align-items:center; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="exam-wrapper" role="region" aria-label="Exam area">
+        <div class="back-wrap" aria-hidden="false">
+          <button class="btn-back" id="backBtn">Back</button>
+        </div>
+
+        <!-- left small panel -->
+        <aside class="question-summary" aria-label="Question summary">
+          <h4>Question <span id="summary-number">1</span></h4>
+          <div class="meta" id="summary-status">Not yet answered</div>
+          <div class="meta">Marked out of 1.00</div>
+          <div class="flag" id="flagQ">Flag question</div>
+        </aside>
+
+        <!-- center big question card -->
+        <section class="question-card" id="questionCard" aria-live="polite">
+          <div>
+            <div class="question-text" id="qText">What are the components of a Git project?</div>
+          </div>
+
+          <div class="choices" id="choicesContainer" role="radiogroup" aria-labelledby="qText"></div>
+
+          <div class="center-footer">
+            <button class="btn-next" id="nextBtn">Next page</button>
+          </div>
+        </section>
+
+        <!-- right quiz navigation -->
+        <aside class="nav-panel" aria-label="Quiz navigation">
+          <h3>Quiz navigation</h3>
+          <div class="nav-grid" id="navGrid"></div>
+          <div class="nav-actions">
+            <a class="finish-link" id="finishLink" href="#" role="button">Finish attempt ...</a>
+          </div>
+        </aside>
+
+        <!-- top-right close -->
+        <button class="close-btn" id="closeBtn" title="Close">✕</button>
+      </div>
+    </div>
+
+    <!-- React + Babel (for quick dev with Live Server). Suitable for local/dev only -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useState, useMemo, useEffect } = React;
+
+      // Mock questions (you can replace with fetch)
+      const QUESTIONS = [
+        {
+          id: 1,
+          text: 'What are the components of a Git project?',
+          choices: [
+            'Repository, Localhost, Index',
+            'Repository, Working tree, Index',
+            'Warehouse, Working tree, Index',
+            'Repository, Working tree, Working Directory'
+          ],
+          correctIndex: 1
+        },
+        {
+          id: 2,
+          text: 'Which command creates a new Git repository?',
+          choices: ['git clone', 'git init', 'git commit', 'git push'],
+          correctIndex: 1
+        },
+        {
+          id: 3,
+          text: 'Which file stores commit history?',
+          choices: ['.gitignore', '.git/objects', '.git/HEAD', '.git/config'],
+          correctIndex: 1
+        },
+        // add more to demonstrate nav
+        ...Array.from({length: 17}, (_,i) => ({
+          id: 4 + i,
+          text: `Sample question ${4+i}`,
+          choices: ['Option A', 'Option B', 'Option C', 'Option D'],
+          correctIndex: 0
+        }))
+      ];
+
+      function Choice({ idx, text, selected, onSelect }) {
+        return (
+          <div
+            role="radio"
+            aria-checked={selected}
+            tabIndex={0}
+            className="choice"
+            onClick={() => onSelect(idx)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onSelect(idx); }}
+          >
+            <span className={'radio ' + (selected ? 'selected' : '')} aria-hidden="true"></span>
+            <span className="label">{String.fromCharCode(97 + idx)}.</span>
+            <div className="text">{text}</div>
+          </div>
+        );
+      }
+
+      function App() {
+        const [questions] = useState(QUESTIONS);
+        const [current, setCurrent] = useState(0);
+        const [answers, setAnswers] = useState({}); // {qid: idx}
+        const total = questions.length;
+
+        useEffect(() => {
+          // update small summary panel
+          document.getElementById('summary-number').textContent = current + 1;
+          const status = answers[questions[current].id] === undefined ? 'Not yet answered' : 'Answered';
+          document.getElementById('summary-status').textContent = status;
+        });
+
+        const handleSelect = (choiceIdx) => {
+          const qid = questions[current].id;
+          setAnswers(prev => ({ ...prev, [qid]: choiceIdx }));
+        };
+
+        const goNext = () => {
+          setCurrent(c => Math.min(total - 1, c + 1));
+        };
+        const goPrev = () => {
+          setCurrent(c => Math.max(0, c - 1));
+        };
+
+        const goTo = (index) => {
+          setCurrent(index);
+        };
+
+        useEffect(() => {
+          // populate nav grid
+          const navGrid = document.getElementById('navGrid');
+          navGrid.innerHTML = '';
+          questions.forEach((q, i) => {
+            const div = document.createElement('div');
+            div.className = 'nav-item' + (i === current ? ' current' : '');
+            div.textContent = i + 1;
+            div.onclick = () => goTo(i);
+            navGrid.appendChild(div);
+          });
+        }, [questions, current]);
+
+        useEffect(() => {
+          // fill choices container (we render React inside #choicesContainer)
+          const container = document.getElementById('choicesContainer');
+          ReactDOM.createRoot(container).render(
+            <div>
+              {questions[current].choices.map((ch, idx) => (
+                <Choice
+                  key={idx}
+                  idx={idx}
+                  text={ch}
+                  selected={answers[questions[current].id] === idx}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </div>
+          );
+        }, [questions, current, answers]);
+
+        // Wire up outer controls that exist in static HTML
+        useEffect(() => {
+          const nextBtn = document.getElementById('nextBtn');
+          const backBtn = document.getElementById('backBtn');
+          const closeBtn = document.getElementById('closeBtn');
+          const finishLink = document.getElementById('finishLink');
+
+          const nHandler = () => goNext();
+          const bHandler = () => goPrev();
+          const cHandler = () => { alert('Close clicked'); };
+          const fHandler = (e) => { e.preventDefault(); alert('Finish attempt — submit flow here'); };
+
+          nextBtn?.addEventListener('click', nHandler);
+          backBtn?.addEventListener('click', bHandler);
+          closeBtn?.addEventListener('click', cHandler);
+          finishLink?.addEventListener('click', fHandler);
+
+          return () => {
+            nextBtn?.removeEventListener('click', nHandler);
+            backBtn?.removeEventListener('click', bHandler);
+            closeBtn?.removeEventListener('click', cHandler);
+            finishLink?.removeEventListener('click', fHandler);
+          };
+        }, []);
+
+        return null; // main UI rendered into static DOM for easy Live Server usage
+      }
+
+      // Start app
+      ReactDOM.createRoot(document.createElement('div')).render(<App />);
+    </script>
+  </body>
+</html>
