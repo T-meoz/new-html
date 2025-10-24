@@ -173,18 +173,17 @@ body {
 }
 
 .main__image {
-    flex: 1;
-    max-width: 100%;
-    display: block;
-    justify-content: center;
-    align-items: center;
-
+    max-width: 45%;
+    flex-basis: 45%;
+    height: auto;
+    box-shadow: var(--shadow);
 }
 
-.main__svg {
-    max-width: 100%;
+.main__img {
+    width: 100%;
     height: auto;
     border-radius: 8px;
+    flex-basis: 45%;
     box-shadow: var(--shadow);
 }
 
@@ -364,6 +363,19 @@ body {
         flex-direction: column;
     }
     
+    .main__image {
+        max-width: 100%;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .main__img {
+        width: 100%;
+        height: auto;
+    
+    }
+
     .footer__container {
         flex-direction: column;
         text-align: center;

@@ -1,0 +1,20 @@
+{
+  "name": "bai-kiem-tra-thu",
+  "version": "1.0.0",
+  "description": "Trang đích sản phẩm bài kiểm tra thử",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest",
+    "test:simple": "jest tests/faqManager.simple.test.js"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "jsdom": "^27.0.1"
+  }
+}
