@@ -1,9 +1,9 @@
-import React from 'react';
-import MockTest from './pages/MockTest';
+import React from "react";
+import MockTest from "./pages/MockTest";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <MockTest />
     </div>
   );

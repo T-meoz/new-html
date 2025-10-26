@@ -1,134 +1,161 @@
-import React, { useState, useMemo } from 'react';
-import QuestionCard from '../components/QuestionCard';
-import NavBar from '../components/NavBar';
-import './MockTest.css';
+const { useState } = React;
 
-/*
-  Mock data: bạn có thể thay bằng dữ liệu thật hoặc fetch từ API.
-  Mỗi câu có id, text, choices (mảng).
-*/
-const initialQuestions = [
+const QUESTIONS = [
   {
     id: 1,
-    text: 'What is the capital of France?',
-    choices: ['Berlin', 'Madrid', 'Paris', 'Rome'],
-    correctIndex: 2,
+    text: "Choose the correct sentence:",
+    choices: [
+      "She don't like coffee.",
+      "She doesn't likes coffee.",
+      "She doesn't like coffee.",
+      "She not likes coffee."
+    ],
+    correctIndex: 2
   },
   {
     id: 2,
-    text: 'Which language runs in a web browser?',
-    choices: ['Java', 'C', 'Python', 'JavaScript'],
-    correctIndex: 3,
+    text: "Complete the sentence: I have lived in this city _____ five years.",
+    choices: ["since", "for", "during", "in"],
+    correctIndex: 1
   },
   {
     id: 3,
-    text: 'What does CSS stand for?',
-    choices: [
-      'Central Style Sheets',
-      'Cascading Style Sheets',
-      'Cascading Simple Sheets',
-      'Cars SUVs Sailboats',
-    ],
-    correctIndex: 1,
+    text: "Which word is a synonym of 'happy'?",
+    choices: ["sad", "angry", "joyful", "tired"],
+    correctIndex: 2
   },
+  {
+    id: 4,
+    text: "Choose the correct form: If it _____ tomorrow, we will stay at home.",
+    choices: ["rains", "rain", "will rain", "raining"],
+    correctIndex: 0
+  },
+  {
+    id: 5,
+    text: "What is the past tense of 'go'?",
+    choices: ["goed", "went", "gone", "going"],
+    correctIndex: 1
+  },
+  {
+    id: 6,
+    text: "Choose the correct preposition: She is interested _____ learning languages.",
+    choices: ["on", "in", "at", "to"],
+    correctIndex: 1
+  },
+  {
+    id: 7,
+    text: "Which sentence is in the passive voice?",
+    choices: [
+      "The teacher explains the lesson.",
+      "The lesson is explained by the teacher.",
+      "The teacher is explaining the lesson.",
+      "The lesson explains by the teacher."
+    ],
+    correctIndex: 1
+  },
+  {
+    id: 8,
+    text: "Choose the correct word: There aren’t _____ apples left.",
+    choices: ["some", "a", "any", "the"],
+    correctIndex: 2
+  },
+  {
+    id: 9,
+    text: "Find the mistake: He can to swim very well.",
+    choices: [
+      "He",
+      "can",
+      "to",
+      "very well"
+    ],
+    correctIndex: 2
+  },
+  {
+    id: 10,
+    text: "Choose the correct sentence:",
+    choices: [
+      "I’m looking forward to see you.",
+      "I’m looking forward seeing you.",
+      "I’m looking forward to seeing you.",
+      "I’m looking forward see you."
+    ],
+    correctIndex: 2
+  }
 ];
 
-export default function MockTest() {
-  const [questions] = useState(initialQuestions);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // selectedAnswers: object { [questionId]: selectedIndex }
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
 
-  const total = questions.length;
-  const answeredCount = useMemo(() => Object.keys(selectedAnswers).length, [selectedAnswers]);
+function MockTest() {
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const total = QUESTIONS.length;
 
-  const handleChoiceSelect = (questionId, choiceIndex) => {
-    setSelectedAnswers((prev) => ({
-      ...prev,
-      [questionId]: choiceIndex,
-    }));
+  const handleSelect = (choiceIdx) => {
+    const qid = QUESTIONS[current].id;
+    setAnswers((prev) => ({ ...prev, [qid]: choiceIdx }));
   };
 
-  const goPrev = () => {
-    setCurrentIndex((i) => Math.max(0, i - 1));
-  };
+  const goNext = () => setCurrent((c) => Math.min(total - 1, c + 1));
+  const goPrev = () => setCurrent((c) => Math.max(0, c - 1));
 
-  const goNext = () => {
-    setCurrentIndex((i) => Math.min(total - 1, i + 1));
-  };
-
-  const handleSubmit = () => {
-    setSubmitted(true);
-  };
-
-  const currentQuestion = questions[currentIndex];
-  const selectedIndexForCurrent = selectedAnswers[currentQuestion.id] ?? null;
-
-  const score = useMemo(() => {
-    if (!submitted) return null;
-    let s = 0;
-    for (const q of questions) {
-      const sel = selectedAnswers[q.id];
-      if (typeof sel === 'number' && sel === q.correctIndex) s += 1;
-    }
-    return s;
-  }, [submitted, selectedAnswers, questions]);
+  const currentQ = QUESTIONS[current];
 
   return (
-    <div className="mocktest-container">
-      <NavBar
-        currentIndex={currentIndex}
-        total={total}
-        onPrev={goPrev}
-        onNext={goNext}
-        onSubmit={handleSubmit}
-        answeredCount={answeredCount}
-      />
+    <div className="quiz-container">
+      <div className="quiz-header">
+        <h3>Question {current + 1}</h3>
+        <div>
+          {answers[currentQ.id] !== undefined ? "Answered" : "Not yet answered"}
+        </div>
+      </div>
 
-      {!submitted ? (
-        <main className="mocktest-main">
-          <QuestionCard
-            question={currentQuestion}
-            selectedIndex={selectedIndexForCurrent}
-            onChoiceSelect={handleChoiceSelect}
-          />
-        </main>
-      ) : (
-        <main className="mocktest-summary">
-          <h2>Summary</h2>
-          <p>
-            You answered {answeredCount} out of {total} questions.
-          </p>
-          <p>
-            Score: {score} / {total}
-          </p>
-          <ol>
-            {questions.map((q) => {
-              const sel = selectedAnswers[q.id];
-              return (
-                <li key={q.id}>
-                  <div className="summary-question">{q.text}</div>
-                  <div className="summary-answers">
-                    Your answer:{' '}
-                    {typeof sel === 'number' ? (
-                      <strong>{q.choices[sel]}</strong>
-                    ) : (
-                      <em>Not answered</em>
-                    )}
-                    {typeof sel === 'number' && sel === q.correctIndex && (
-                      <span className="correct"> ✓</span>
-                    )}
-                    {typeof sel === 'number' && sel !== q.correctIndex && (
-                      <span className="incorrect"> ✗ (Correct: {q.choices[q.correctIndex]})</span>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </main>
-      )}
+      <div className="question-card">
+        <p>{currentQ.text}</p>
+        <div className="choices">
+          {currentQ.choices.map((c, i) => (
+            <label key={i} style={{ display: "block", margin: "4px 0" }}>
+              <input
+                type="radio"
+                name={`q${current}`}
+                checked={answers[currentQ.id] === i}
+                onChange={() => handleSelect(i)}
+              />
+              {String.fromCharCode(97 + i)}. {c}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="footer">
+        {current > 0 && (
+          <button onClick={goPrev} className="btn-prev">
+            Previous page
+          </button>
+        )}
+        <button onClick={goNext} className="btn-next">
+          {current === total - 1 ? "Finish" : "Next page"}
+        </button>
+      </div>
+
+      <div className="quiz-navigation">
+        <strong>Quiz navigation</strong>
+        <div className="nav-buttons">
+          {QUESTIONS.map((q, i) => (
+            <button
+              key={q.id}
+              className={`nav-btn ${
+                current === i
+                  ? "active"
+                  : answers[q.id] !== undefined
+                  ? "done"
+                  : ""
+              }`}
+              onClick={() => setCurrent(i)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
