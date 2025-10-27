@@ -1,3 +1,4 @@
+<DOCUMENT filename="public/index.html">
 <!doctype html>
 <html lang="vi">
   <head>
@@ -167,488 +168,665 @@
         margin-top:8px; 
         color:#0b60d6; 
         cursor:pointer; 
-        font-size:13px; 
+        font-size:13px;
       }
 
       /* Center big question card */
       .question-card {
-        padding: 22px;
+        background: #fff;
+        padding: 0;
         border-radius: 8px;
-        background: #e8f6f7; /* pale blue */
-        min-height: 220px;
-        display:flex;
-        flex-direction: column;
-        gap: 12px;
       }
       
-      .question-card .question-text {
-        font-size:18px;
-        margin:0 0 6px 0;
-        color:#062a3f;
+      .question-text {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 18px;
       }
-
+      
       .choices {
-        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
       }
       
-      .choice {
-        display:flex;
-        gap:12px;
-        align-items:flex-start;
-        padding: 10px 12px;
-        border-radius:6px;
-        margin-bottom:10px;
-        background: transparent;
-        cursor:pointer;
-        border: 1px solid transparent;
+      .choices label {
+        margin: 8px 0;
+        cursor: pointer;
       }
       
-      .choice:hover { 
-        border-color: rgba(3,102,214,0.08); 
-        background: rgba(3,102,214,0.02); 
-      }
-      
-      .choice .radio {
-        width:18px;
-        height:18px;
-        border-radius:50%;
-        border:2px solid #a7b3bd;
-        display:inline-block;
-        flex: 0 0 18px;
-        margin-top:4px;
-      }
-      
-      .choice .radio.selected {
-        border-color:#0b60d6;
-        background: #0b60d6;
-      }
-      
-      .choice .label {
-        font-weight:600;
-        min-width:18px;
-      }
-      
-      .choice .text {
-        color:#0f1720;
-      }
-
-      /* Next button bottom right of center column */
       .center-footer {
         display: flex;
-        justify-content: space-between; /* left = previous, right = next */
-        margin-top: 8px;
-        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 24px;
       }
       
       .btn-next {
-        background:#0b60d6;
-        color:#fff;
-        padding:10px 16px;
-        border-radius:8px;
-        border:none;
-        cursor:pointer;
-        box-shadow: 0 6px 14px rgba(11,96,214,0.18);
+        background: #0b60d6;
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
       }
 
-      /* Right nav panel */
+      /* Right quiz nav panel */
       .nav-panel {
         background: #fff;
-        border-radius:8px;
-        padding:14px;
-        border: 1px solid #f0f4f8;
-        box-shadow: 0 4px 10px rgba(15,23,42,0.03);
+        border: 1px solid #e6eef3;
+        border-radius: 6px;
+        padding: 12px;
       }
       
       .nav-panel h3 {
-        margin:0 0 12px 0;
-        font-size:18px;
+        font-size: 15px;
+        margin: 0 0 12px 0;
       }
       
       .nav-grid {
-        display:grid;
+        display: grid;
         grid-template-columns: repeat(5, 1fr);
-        gap:8px;
+        gap: 6px;
       }
       
       .nav-item {
-        background:#fff;
-        border:2px solid #cbd5e1;
-        width:40px;
-        height:40px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:6px;
-        cursor:pointer;
-        font-weight:600;
-        color:#0f1720;
+        background: #f1f5f9;
+        border: 1px solid #d1dbe6;
+        border-radius: 4px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        cursor: pointer;
+        position: relative;
       }
       
-      .nav-item.current {
-        border-color:#0b60d6;
-        background:#fff;
-        box-shadow: inset 0 0 0 3px rgba(11,96,214,0.06);
+      .nav-item.active {
+        background: #0b60d6;
+        color: #fff;
+        border-color: #0b60d6;
+      }
+      
+      .nav-item.done {
+        background: #d7f5dc;
+        border-color: #9ee5a5;
+      }
+      
+      .nav-item.flagged {
+        border-color: #ef4444;
+      }
+      
+      .nav-item.flagged::after {
+        content: '🚩';
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        font-size: 12px;
       }
       
       .nav-actions {
-        margin-top:12px;
-      }
-      
-      .finish-link { 
-        color:#0b60d6; 
-        display:inline-block; 
-        margin-top:8px; 
-      }
-
-      /* Top-right close button like screenshot */
-      .close-btn {
-        position:absolute;
-        right: -18px;
-        top: -18px;
-        width:44px;
-        height:44px;
-        border-radius:10px;
-        border:2px solid #2b5fbf;
-        background:#fff;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        color:#2b5fbf;
-        font-weight:700;
-        cursor:pointer;
-      }
-
-      /* Responsive */
-      @media (max-width: 980px) {
-        .exam-wrapper { grid-template-columns: 1fr; }
-        .nav-panel { order: 3; }
-        .question-summary { order: 1; display:flex; justify-content:space-between; align-items:center; }
-      }
-      
-      /* Result screen styles */
-      .result-screen {
-        padding: 20px;
-      }
-      
-      .result-container {
-        display: flex;
-        gap: 40px;
-        margin-bottom: 30px;
-      }
-      
-      .result-summary-panel {
-        min-width: 360px;
-      }
-      
-      .result-details-panel {
-        flex: 1;
-      }
-      
-      .result-navigation-panel {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-      }
-      
-      .grade-display {
-        margin-top: 15px;
-        padding: 10px;
-        background-color: #eaf7ea;
-        border-radius: 6px;
+        margin-top: 16px;
         text-align: center;
       }
       
+      .finish-link {
+        font-size: 13px;
+        display: inline-block;
+      }
+      
+      .close-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #475569;
+      }
+
+      /* Result page styles */
+      .result-page {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 24px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      .result-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      
+      .result-title {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      
+      .result-grade {
+        font-size: 32px;
+        color: #36b24a;
+        margin: 0;
+      }
+      
+      .result-summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 32px;
+      }
+      
+      .result-summary-table th,
+      .result-summary-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      
+      .result-summary-table th {
+        width: 150px;
+        font-weight: 600;
+        background: #f9fafb;
+      }
+      
+      .result-questions {
+        margin-bottom: 32px;
+      }
+      
+      .result-question {
+        margin-bottom: 24px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .result-question-header {
+        background: #f0f9ff;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .result-question-title {
+        font-weight: 600;
+      }
+      
+      .result-question-mark {
+        font-size: 14px;
+        color: #6b7280;
+      }
+      
+      .result-question-body {
+        padding: 16px;
+      }
+      
+      .result-question-text {
+        font-weight: 500;
+        margin-bottom: 12px;
+      }
+      
+      .result-options {
+        margin-bottom: 12px;
+      }
+      
+      .result-option {
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+      
+      .result-option.correct {
+        background: #d1fae5;
+        border: 1px solid #34d399;
+      }
+      
+      .result-option.incorrect {
+        background: #fee2e2;
+        border: 1px solid #ef4444;
+      }
+      
+      .result-option.user-choice::before {
+        content: "Your answer: ";
+        font-weight: 600;
+      }
+      
+      .result-correct-answer {
+        background: #fef3c7;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 12px;
+      }
+      
+      .result-navigation {
+        background: #f9fafb;
+        padding: 16px;
+        border-radius: 8px;
+      }
+      
+      .result-navigation-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      
+      .result-nav-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+        gap: 8px;
+      }
+      
+      .result-nav-item {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 13px;
+      }
+      
+      .result-nav-item.correct {
+        background: #22c55e;
+      }
+      
+      .result-nav-item.incorrect {
+        background: #ef4444;
+      }
+      
       .finish-review-btn {
-        margin-top: 10px;
-        padding: 8px 16px;
+        display: block;
+        margin: 24px auto 0;
+        padding: 10px 20px;
         background: #0b60d6;
         color: #fff;
         border: none;
         border-radius: 6px;
         cursor: pointer;
       }
+      
+      .mocktest-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: #f0f9ff;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      
+      .nav-left {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .nav-right {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .question-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      
+      .question-text {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      
+      .choices-list {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .choice-item {
+        margin-bottom: 10px;
+      }
+      
+      .choice-button {
+        width: 100%;
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        cursor: pointer;
+      }
+      
+      .choice-button.selected {
+        background: #d1e7ff;
+        border-color: #0b60d6;
+      }
+      
+      .choice-label {
+        font-weight: bold;
+        margin-right: 5px;
+      }
     </style>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
-    
-    <!-- React + Babel (for quick dev with Live Server). Suitable for local/dev only -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="text/babel" src="../src/pages/MockTest.js"></script>
+    <script src="../src/pages/MockTest.js" type="text/babel"></script>
     <script type="text/babel">
-      const { useState, useEffect, useRef } = React;
-      
-      // Mock data for questions
-    
+      const { useState, useEffect } = React;
 
-      function Choice({ idx, text, selected, onSelect }) {
+      // Định nghĩa Choices component
+      function Choices({ choices, selectedIndex, onSelect }) {
         return (
-          <div
-            role="radio"
-            aria-checked={selected}
-            tabIndex={0}
-            className="choice"
-            onClick={() => onSelect(idx)}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onSelect(idx); }}
-          >
-            <span className={'radio ' + (selected ? 'selected' : '')} aria-hidden="true"></span>
-            <span className="label">{String.fromCharCode(97 + idx)}.</span>
-            <div className="text">{text}</div>
+          <ul className="choices-list" role="list">
+            {choices.map((choice, idx) => (
+              <li key={idx} className="choice-item">
+                <button
+                  type="button"
+                  className={`choice-button ${selectedIndex === idx ? 'selected' : ''}`}
+                  onClick={() => onSelect(idx)}
+                  aria-pressed={selectedIndex === idx}
+                >
+                  <span className="choice-label">{String.fromCharCode(65 + idx)}.</span>
+                  <span className="choice-text">{choice}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        );
+      }
+
+      // Định nghĩa QuestionCard component
+      function QuestionCard({ question, selectedIndex, onChoiceSelect }) {
+        if (!question) return null;
+
+        return (
+          <div className="question-card" data-question-id={question.id}>
+            <h2 className="question-text">{question.text}</h2>
+            <Choices
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              onSelect={(idx) => onChoiceSelect(question.id, idx)}
+            />
           </div>
         );
       }
 
+      // Định nghĩa NavBar component
+      function NavBar({
+        currentIndex,
+        total,
+        onPrev,
+        onNext,
+        onSubmit,
+        answeredCount,
+      }) {
+        return (
+          <header className="mocktest-navbar" role="navigation" aria-label="Mock test navigation">
+            <div className="nav-left">
+              <strong>Question {currentIndex + 1} / {total}</strong>
+              <span className="progress">Answered: {answeredCount}/{total}</span>
+            </div>
+            <div className="nav-right">
+              <button type="button" onClick={onPrev} disabled={currentIndex === 0}>
+                Prev
+              </button>
+              {currentIndex < total - 1 ? (
+                <button type="button" onClick={onNext}>
+                  Next
+                </button>
+              ) : (
+                <button type="button" onClick={onSubmit}>
+                  Submit
+                </button>
+              )}
+            </div>
+          </header>
+        );
+      }
+
+      
+
       function App() {
-        const [questions] = useState(QUESTIONS);
-        const [current, setCurrent] = useState(0);
+        const [currentIndex, setCurrentIndex] = useState(0);
         const [answers, setAnswers] = useState({});
-        const [finished, setFinished] = useState(false);
-        const [quizMeta, setQuizMeta] = useState({
-          startedOn: new Date().toLocaleString(),
-          state: "In progress",
-          completedOn: "",
-          timeTaken: "",
-          totalMarks: 10,
-        });
-        const startTime = useRef(Date.now());
+        const [flags, setFlags] = useState({});
+        const [showResult, setShowResult] = useState(false);
+        const [startedAt, setStartedAt] = useState(new Date());
+        const [completedAt, setCompletedAt] = useState(null);
+        const total = QUESTIONS.length;
 
         useEffect(() => {
-          document.getElementById('summary-number').textContent = current + 1;
-          const status = answers[questions[current].id] === undefined ? 'Not yet answered' : 'Answered';
-          document.getElementById('summary-status').textContent = status;
+          setStartedAt(new Date());
+        }, []);
 
-          const prevBtn = document.getElementById('prevBtn');
-          if (prevBtn) prevBtn.style.display = current === 0 ? 'none' : 'inline-block';
-        });
-
-        const handleSelect = (choiceIdx) => {
-          const qid = questions[current].id;
-          setAnswers(prev => {
-            const currentChoice = prev[qid];
-            if (currentChoice === choiceIdx) {
-              const newAnswers = { ...prev };
-              delete newAnswers[qid];
-              return newAnswers;
-            }
-            return { ...prev, [qid]: choiceIdx };
-          });
+        const handleChoiceSelect = (qid, idx) => {
+          setAnswers(prev => ({ ...prev, [qid]: idx }));
         };
 
-        const goNext = () => setCurrent(c => Math.min(questions.length - 1, c + 1));
-        const goPrev = () => setCurrent(c => Math.max(0, c - 1));
-        const goTo = (index) => setCurrent(index);
+        const handlePrev = () => {
+          if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
+        };
 
-        useEffect(() => {
-          const navGrid = document.getElementById('navGrid');
-          if (!navGrid) return;
-          
-          navGrid.innerHTML = '';
-          questions.forEach((q, i) => {
-            const div = document.createElement('div');
-            const isCurrent = i === current;
-            const isAnswered = answers[q.id] !== undefined;
-            div.className = 'nav-item';
-            if (isCurrent) div.classList.add('current');
-            if (isAnswered) div.classList.add('answered');
-            div.textContent = i + 1;
-            div.onclick = () => goTo(i);
-            navGrid.appendChild(div);
+        const handleNext = () => {
+          if (currentIndex < total - 1) setCurrentIndex(currentIndex + 1);
+        };
+
+        const handleSubmit = () => {
+          if (window.confirm("Are you sure you want to finish the attempt?")) {
+            setCompletedAt(new Date());
+            setShowResult(true);
+          }
+        };
+
+        const toggleFlag = (qid) => {
+          setFlags(prev => ({ ...prev, [qid]: !prev[qid] }));
+        };
+
+        const answeredCount = Object.keys(answers).length;
+
+        const calculateResults = () => {
+          let correctCount = 0;
+          QUESTIONS.forEach(q => {
+            if (answers[q.id] === q.correctIndex) correctCount++;
           });
-        }, [questions, current, answers]);
+          const marks = (correctCount * 1.0).toFixed(2);
+          const grade = ((correctCount / total) * 10).toFixed(1);
+          const percentage = ((correctCount / total) * 100).toFixed(0);
+          return { correctCount, marks, grade, percentage };
+        };
 
-        useEffect(() => {
-          const container = document.getElementById('choicesContainer');
-          if (!container) return;
-          
-          ReactDOM.createRoot(container).render(
-            <div>
-              {questions[current].choices.map((ch, idx) => (
-                <Choice
-                  key={idx}
-                  idx={idx}
-                  text={ch}
-                  selected={answers[questions[current].id] === idx}
-                  onSelect={handleSelect}
-                />
-              ))}
+        const formatDate = (date) => {
+          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          const day = days[date.getDay()];
+          const month = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
+          let hours = date.getHours();
+          const minutes = date.getMinutes();
+          const ampm = hours >= 12 ? 'PM' : 'AM';
+          hours = hours % 12;
+          hours = hours ? hours : 12;
+          const time = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+          return `${day}, ${date.getDate()} ${month} ${year}, ${time}`;
+        };
+
+        const calculateTimeTaken = () => {
+          if (!completedAt) return '';
+          const diff = completedAt - startedAt;
+          const mins = Math.floor(diff / 60000);
+          const secs = Math.floor((diff % 60000) / 1000);
+          return `${mins} mins ${secs} secs`;
+        };
+
+        if (showResult) {
+          const { correctCount, marks, grade, percentage } = calculateResults();
+          return (
+            <div className="result-page">
+              <div className="result-header">
+                <h2 className="result-title">Quiz Completed</h2>
+                <p className="result-grade">{grade} out of 10.00 ({percentage}%)</p>
+              </div>
+              
+              <table className="result-summary-table">
+                <tbody>
+                  <tr>
+                    <th>Started on</th>
+                    <td>{formatDate(startedAt)}</td>
+                  </tr>
+                  <tr>
+                    <th>State</th>
+                    <td>Finished</td>
+                  </tr>
+                  <tr>
+                    <th>Completed on</th>
+                    <td>{formatDate(completedAt)}</td>
+                  </tr>
+                  <tr>
+                    <th>Time taken</th>
+                    <td>{calculateTimeTaken()}</td>
+                  </tr>
+                  <tr>
+                    <th>Marks</th>
+                    <td>{marks}/{total.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <th>Grade</th>
+                    <td>{grade} out of 10.00 ({percentage}%)</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div className="result-questions">
+                {QUESTIONS.map((q, i) => {
+                  const userChoice = answers[q.id];
+                  const isCorrect = userChoice === q.correctIndex;
+                  const correctAnswer = q.choices[q.correctIndex];
+                  
+                  return (
+                    <div key={q.id} className="result-question">
+                      <div className="result-question-header">
+                        <span className="result-question-title">Question {i + 1}</span>
+                        <span className="result-question-mark">Mark 1.00 out of 1.00</span>
+                      </div>
+                      <div className="result-question-body">
+                        <p className="result-question-text">{q.text}</p>
+                        <div className="result-options">
+                          {q.choices.map((choice, idx) => (
+                            <div 
+                              key={idx} 
+                              className={`result-option ${idx === q.correctIndex ? 'correct' : ''} ${idx === userChoice && !isCorrect ? 'incorrect' : ''}`}
+                            >
+                              {String.fromCharCode(97 + idx)}. {choice} {idx === userChoice ? '(Your answer)' : ''} {idx === q.correctIndex ? '✔' : (idx === userChoice ? '✘' : '')}
+                            </div>
+                          ))}
+                        </div>
+                        {!isCorrect && (
+                          <div className="result-correct-answer">
+                            The correct answer is: {correctAnswer}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              
+              <div className="result-navigation">
+                <h3 className="result-navigation-title">Quiz navigation</h3>
+                <div className="result-nav-grid">
+                  {QUESTIONS.map((q, i) => {
+                    const isCorrect = answers[q.id] === q.correctIndex;
+                    const answered = answers[q.id] !== undefined;
+                    return (
+                      <div 
+                        key={q.id} 
+                        className={`result-nav-item ${isCorrect ? 'correct' : (answered ? 'incorrect' : '')}`}
+                      >
+                        {i + 1}
+                      </div>
+                    );
+                  })}
+                </div>
+                <button
+                  className="finish-review-btn"
+                  onClick={() => window.location.href = "../index.html"}
+                >
+                  Finish review
+                </button>
+              </div>
             </div>
           );
-        }, [questions, current, answers]);
-
-        useEffect(() => {
-          const finishLink = document.getElementById('finishLink');
-          const nextBtn = document.getElementById('nextBtn');
-          const prevBtn = document.getElementById('prevBtn');
-          const closeBtn = document.getElementById('closeBtn');
-
-          const nHandler = () => goNext();
-          const pHandler = () => goPrev();
-          const cHandler = () => alert('Close clicked');
-
-          const fHandler = (e) => {
-            e.preventDefault();
-            const confirmSubmit = confirm("Are you sure you want to finish and submit your test?");
-            if (confirmSubmit) {
-              showResult();
-            }
-          };
-
-          nextBtn?.addEventListener('click', nHandler);
-          prevBtn?.addEventListener('click', pHandler);
-          closeBtn?.addEventListener('click', cHandler);
-          finishLink?.addEventListener('click', fHandler);
-
-          return () => {
-            nextBtn?.removeEventListener('click', nHandler);
-            prevBtn?.removeEventListener('click', pHandler);
-            closeBtn?.removeEventListener('click', cHandler);
-            finishLink?.removeEventListener('click', fHandler);
-          };
-        }, [answers]);
-
-        // Hiển thị kết quả chi tiết (giống Moodle)
-        const showResult = () => {
-          const endTime = Date.now();
-          const durationSec = Math.floor((endTime - startTime.current) / 1000);
-          const mins = Math.floor(durationSec / 60);
-          const secs = durationSec % 60;
-
-          const updatedQuizMeta = {
-            ...quizMeta,
-            state: "Finished",
-            completedOn: new Date().toLocaleString(),
-            timeTaken: `${mins} mins ${secs} secs`
-          };
-          
-          setQuizMeta(updatedQuizMeta);
-
-          let score = 0;
-          questions.forEach(q => {
-            if (answers[q.id] === q.correctIndex) score++;
-          });
-          
-          const total = questions.length;
-          const grade = ((score / total) * 10).toFixed(2);
-          const percent = ((score / total) * 100).toFixed(0);
-
-          // Tạo nội dung kết quả
-          const resultHTML = `
-            <div class="result-screen">
-              <div class="result-container">
-                <!-- BẢNG THÔNG TIN -->
-                <div class="result-summary-panel">
-                  <table class="result-summary">
-                    <tr><th>Started on</th><td>${updatedQuizMeta.startedOn}</td></tr>
-                    <tr><th>State</th><td>${updatedQuizMeta.state}</td></tr>
-                    <tr><th>Completed on</th><td>${updatedQuizMeta.completedOn}</td></tr>
-                    <tr><th>Time taken</th><td>${updatedQuizMeta.timeTaken}</td></tr>
-                    <tr><th>Marks</th><td>${score}/${total}</td></tr>
-                    <tr><th>Grade</th><td>${grade} out of 10 (${percent}%)</td></tr>
-                  </table>
-                  <div class="grade-display">
-                    <h3 style="color:green; margin:0;">You scored ${percent}%!</h3>
-                  </div>
-                </div>
-
-                <!-- REVIEW CHI TIẾT -->
-                <div class="result-details-panel">
-                  <h3>Detailed Review</h3>
-                  ${questions.map((q, i) => {
-                    const isCorrect = answers[q.id] === q.correctIndex;
-                    const correctChoice = q.choices[q.correctIndex];
-                    const chosen = answers[q.id] !== undefined ? q.choices[answers[q.id]] : "No answer";
-                    
-                    return `
-                      <div class="question-review">
-                        <div class="question-header">Question ${i + 1}</div>
-                        <div class="question-body">
-                          <p><b>${q.text}</b></p>
-                          <div class="option ${isCorrect ? 'correct' : 'incorrect'}">
-                            <b>Your answer:</b> ${chosen} ${isCorrect ? "✓" : "✗"}
-                          </div>
-                          ${!isCorrect ? `
-                            <div class="option correct">
-                              <b>Correct answer:</b> ${correctChoice}
-                            </div>
-                          ` : ''}
-                        </div>
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
-
-                <!-- QUIZ NAVIGATION -->
-                <div class="result-navigation-panel">
-                  <h4>Quiz navigation</h4>
-                  <div class="review-nav-grid">
-                    ${questions.map((q, i) => {
-                      const isCorrect = answers[q.id] === q.correctIndex;
-                      return `
-                        <div class="nav-cell ${isCorrect ? 'correct' : 'incorrect'}">
-                          ${i + 1}
-                        </div>
-                      `;
-                    }).join('')}
-                  </div>
-                  <button class="finish-review-btn" onclick="location.reload()">Finish review</button>
-                </div>
-              </div>
-            </div>
-          `;
-
-          document.querySelector('.exam-wrapper').innerHTML = resultHTML;
-          setFinished(true);
-        };
-
-        // Nếu đã kết thúc bài, không hiển thị giao diện làm bài
-        if (finished) {
-          return null;
         }
 
-        // Hiển thị giao diện làm bài
+        const currentQ = QUESTIONS[currentIndex];
+        const selectedIndex = answers[currentQ.id];
+
         return (
           <div className="page">
-            <div className="exam-wrapper" role="region" aria-label="Exam area">
-              <div className="back-wrap" aria-hidden="false">
-                <button className="btn-back" id="backBtn">Back</button>
-              </div>
-
-             
-              <aside className="question-summary" aria-label="Question summary">
-                <h4>Question <span id="summary-number">1</span></h4>
-                <div className="meta" id="summary-status">Not yet answered</div>
+            <div className="exam-wrapper">
+              <aside className="question-summary">
+                <h4>Question {currentIndex + 1}</h4>
+                <div className="meta">
+                  {selectedIndex !== undefined ? 'Answered' : 'Not yet answered'}
+                </div>
                 <div className="meta">Marked out of 1.00</div>
-                <div className="flag" id="flagQ">Flag question</div>
+                <div 
+                  className="flag" 
+                  onClick={() => toggleFlag(currentQ.id)}
+                  style={{ color: flags[currentQ.id] ? '#ef4444' : '#0b60d6' }}
+                >
+                  {flags[currentQ.id] ? 'Unflag question' : 'Flag question'}
+                </div>
               </aside>
 
-           
-              <section className="question-card" id="questionCard" aria-live="polite">
-                <div>
-                  <div className="question-text" id="qText">{questions[current].text}</div>
-                </div>
-
-                <div className="choices" id="choicesContainer" role="radiogroup" aria-labelledby="qText"></div>
-
-                <div className="center-footer">
-                  <button className="btn-prev" id="prevBtn">Previous page</button>
-                  <button className="btn-next" id="nextBtn">Next page</button>
-                </div>
+              <section className="question-card">
+                <NavBar 
+                  currentIndex={currentIndex}
+                  total={total}
+                  onPrev={handlePrev}
+                  onNext={handleNext}
+                  onSubmit={handleSubmit}
+                  answeredCount={answeredCount}
+                />
+                <QuestionCard 
+                  question={currentQ}
+                  selectedIndex={selectedIndex}
+                  onChoiceSelect={handleChoiceSelect}
+                />
               </section>
 
-              
-              <aside className="nav-panel" aria-label="Quiz navigation">
+              <aside className="nav-panel">
                 <h3>Quiz navigation</h3>
-                <div className="nav-grid" id="navGrid"></div>
+                <div className="nav-grid">
+                  {QUESTIONS.map((q, i) => (
+                    <div
+                      key={q.id}
+                      className={`nav-item ${currentIndex === i ? 'active' : ''} ${answers[q.id] !== undefined ? 'done' : ''} ${flags[q.id] ? 'flagged' : ''}`}
+                      onClick={() => setCurrentIndex(i)}
+                    >
+                      {i + 1}
+                    </div>
+                  ))}
+                </div>
                 <div className="nav-actions">
-                  <a className="finish-link" id="finishLink" href="#" role="button">Finish attempt ...</a>
+                  <a 
+                    className="finish-link" 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSubmit();
+                    }}
+                  >
+                    Finish attempt ...
+                  </a>
                 </div>
               </aside>
 
-              
-              <button className="close-btn" id="closeBtn" title="Close">✕</button>
+              <button className="close-btn" onClick={() => alert('Close functionality')}>✕</button>
             </div>
           </div>
         );
@@ -658,3 +836,4 @@
     </script>
   </body>
 </html>
+</DOCUMENT>
